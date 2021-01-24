@@ -14,17 +14,15 @@ export enum AccountType {
   fixed = "B",
 }
 
-const sorter = (a: Plot, b: Plot) => (a.x < b.x ? -1 : a.x > b.x ? 1 : 0);
-
 type GetYInterceptProps = {
   plot: Plot;
   gradient: number;
 };
 
 const getYIntercept = ({ plot, gradient }: GetYInterceptProps): number => {
-  const hasCurrentMonth = plot.x === 0;
+  const isCurrentMonth = plot.x === 0;
 
-  if (hasCurrentMonth) {
+  if (isCurrentMonth) {
     return plot.y;
   } else {
     return gradient * plot.x - plot.y;
@@ -38,20 +36,18 @@ export const accountTypeChecker = (
     return AccountType.fixed;
   }
 
-  const sortedPlots: Plot[] = accountBalanceHistory
-    .map((entry) => ({
-      x: entry.monthNumber,
-      y: entry.account.balance.amount,
-    }))
-    .sort(sorter);
+  const plots: Plot[] = accountBalanceHistory.map((entry) => ({
+    x: entry.monthNumber,
+    y: entry.account.balance.amount,
+  }));
 
-  const changeY = sortedPlots[sortedPlots.length - 1].y - sortedPlots[0].y;
-  const changeX = sortedPlots[sortedPlots.length - 1].x - sortedPlots[0].x;
+  const changeY = plots[plots.length - 1].y - plots[0].y;
+  const changeX = plots[plots.length - 1].x - plots[0].x;
   const gradient = changeY / changeX;
 
-  const yIntercept = getYIntercept({ plot: sortedPlots[0], gradient });
+  const yIntercept = getYIntercept({ plot: plots[0], gradient });
 
-  const isVariable = sortedPlots.some((plot) => {
+  const isVariable = plots.some((plot) => {
     const linearY = gradient * plot.x + yIntercept;
     return plot.y !== linearY;
   });
