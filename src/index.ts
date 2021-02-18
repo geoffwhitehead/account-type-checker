@@ -9,11 +9,15 @@ const getGradientAndIntercept = (
   const changeX = last.monthNumber - first.monthNumber;
   const gradient = changeY / changeX;
   const yIntercept =
-    gradient * first.monthNumber - first.account.balance.amount;
+    gradient * first.monthNumber - Math.abs(first.account.balance.amount);
 
   return { yIntercept, gradient };
 };
 
+/**
+ * Function to determine whether the account balance decreases by the same amount each month.
+ * Solved using a linear equation where x is the month number and y is the account balance.
+ */
 export const accountTypeChecker = (acc: AccountBalanceEntry[]): AccountType => {
   if (acc.length <= 2) {
     return AccountType.fixed;

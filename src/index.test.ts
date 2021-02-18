@@ -46,14 +46,14 @@ describe("accountTypeChecker", () => {
         ]),
         expected: AccountType.fixed,
       },
-      // {
-      //   accountBalanceHistory: generateFromTuples([
-      //     [0, -50],
-      //     [1, 0],
-      //     [2, 50],
-      //   ]),
-      //   expected: AccountType.fixed,
-      // },
+      {
+        accountBalanceHistory: generateFromTuples([
+          [0, -50],
+          [1, 0],
+          [2, 50],
+        ]),
+        expected: AccountType.fixed,
+      },
       {
         accountBalanceHistory: generateFromTuples([
           [0, -100],
